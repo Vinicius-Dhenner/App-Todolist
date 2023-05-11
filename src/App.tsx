@@ -2,8 +2,8 @@ import './App.css'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AppBar, Badge, Button, colors, Container, Grid, TextField, Toolbar, Typography, useTheme } from '@mui/material';
-import { PlusCircle, Rocket } from '@phosphor-icons/react';
+import { AppBar, Badge, Box, Button, Checkbox, Chip, colors, Container, FormControlLabel, Grid, TextField, Toolbar, Typography, useTheme } from '@mui/material';
+import { CheckFat, PlusCircle, Rocket } from '@phosphor-icons/react';
 import Placeholder from '@phosphor-icons/react/dist/icons/Placeholder';
 
 const darkTheme = createTheme({
@@ -32,7 +32,9 @@ function App() {
           <Typography variant="h5" component="h1" sx={{
             display: "flex",
             alignItems: 'center',
-          }}><Rocket size={32} /><span> todo</span></Typography>
+            gap: theme.spacing(2),
+            color: theme.palette.primary.light
+          }}><CheckFat size={32} weight='fill' /> <span>Lista de Tarefas</span></Typography>
         </Toolbar>
       </AppBar>
       <main>
@@ -45,10 +47,9 @@ function App() {
             top: '-27px',
           }}>
             <Grid item xl={10} sm={12}>
-              <TextField variant='outlined' name='task' fullWidth sx={{
+              <TextField placeholder='Adcione uma nova tarefa' variant='outlined' name='task' fullWidth sx={{
                 backgroundColor: colors.grey[800]
-                
-                }}>
+              }}>
 
               </TextField>
             </Grid>
@@ -59,21 +60,43 @@ function App() {
 
               </Button>
             </Grid>
-          </Grid>
-          <Grid container spacing={theme.spacing(1)} >
+            <Grid container spacing={theme.spacing(1)} sx={{
+              marginTop: '25px'
+            }} >
               <Grid item>
                 <Typography variant="caption" sx={{
                   display: 'flex',
-                  alignItems: "center"
+                  alignItems: "center",
+                  gap: theme.spacing(2)
                 }}>
-                <Badge color='primary' badgeContent={0} showZero/>
                   <span>Tarefas Criadas</span>
+                  <Badge color='primary' badgeContent={0} showZero />
 
                 </Typography>
               </Grid>
+              <Grid item sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end'
+              }}>
+                <Typography variant="caption" sx={{
+                  display: 'flex',
+                  alignItems: "center",
+                }}>
+                  <span>Tarefas Concluidas</span>
+                  <Badge color='primary' badgeContent={0} showZero />
+
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Container>
       </main>
+
+{/* <Box display='flex' alignItems='center' gap ={theme.spacing(1)}>
+  <Typography>Tarefas Criadas</Typography>
+  <Chip label={0}></Chip>
+</Box> */}
 
     </ThemeProvider>
   );
