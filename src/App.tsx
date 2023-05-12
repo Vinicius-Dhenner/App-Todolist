@@ -91,12 +91,17 @@ function App() {
             </Grid>
           </Grid>
         </Container>
+        <Box display='flex' alignItems='center' gap={theme.spacing(1)}>
+          <Typography>Tarefas Criadas</Typography>
+          <Chip label={0}></Chip>
+        </Box>
+
+        <Box display='flex' alignItems='flex-end' gap={theme.spacing(1)}>
+          <Typography>Tarefas Criadas</Typography>
+          <Chip label={0}></Chip>
+        </Box>
       </main>
 
-{/* <Box display='flex' alignItems='center' gap ={theme.spacing(1)}>
-  <Typography>Tarefas Criadas</Typography>
-  <Chip label={0}></Chip>
-</Box> */}
 
     </ThemeProvider>
   );
