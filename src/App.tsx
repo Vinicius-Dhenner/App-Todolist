@@ -1,111 +1,186 @@
-import './App.css'
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { AppBar, Badge, Box, Button, Checkbox, Chip, colors, Container, FormControlLabel, Grid, TextField, Toolbar, Typography, useTheme } from '@mui/material';
-import { CheckFat, PlusCircle, Rocket } from '@phosphor-icons/react';
-import Placeholder from '@phosphor-icons/react/dist/icons/Placeholder';
+import { useTheme, TextField, Grid, AppBar, Toolbar, Typography, Container, Button, colors, Card, CardContent, Badge, Checkbox } from '@mui/material';
+import { ClipboardText, PlusCircle, Rocket } from "@phosphor-icons/react";
+import { styled } from '@mui/material/styles';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { CardTarefa } from './CardTarefa/inde.tsx';
+import { Task } from './types/index.ts';
+import { api, getAll, save } from './service/api';
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
+
+
+const CssTextField = styled(TextField)({
+  '& label': {
+    color: '#ffffff38'
+  },
+  '& label.Mui-focused': {
+    color: '#cfcfcf',
+  },
+
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'black',
+    },
+    '&:hover fieldset': {
+      borderColor: '#cfcfcf',
+      transition: '.4s',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#cfcfcf',
+    },
   },
 });
 
+
 function App() {
-  const theme = createTheme()
+  const theme = useTheme()
+
+
+  const [tasksi, setTasksi] = useState<string>('');
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [teste, setTeste] = useState<any>()
+
+  useEffect(() => {
+    pegaDados();
+  }, [teste]);
+
+  const saveNoBanco = () => {
+    const tsk = {
+      description: tasksi,
+      done: false
+    }
+    setTeste(tsk)
+    save(tsk);
+  }
+
+  const pegaDados = async () => {
+    try {
+      const { data } = await api.get('tasks');
+      setTasks(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  console.log(tasks)
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <AppBar position="static">
+
+    <>
+      <AppBar position='static'>
         <Toolbar sx={{
           paddingTop: theme.spacing(2),
           paddingBottom: theme.spacing(2),
-          display: "flex",
+          display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           '@media all': {
+
             minHeight: 200,
           }
-
         }}>
-          <Typography variant="h5" component="h1" sx={{
-            display: "flex",
+
+          <Typography variant="h5" component="h6" sx={{
+            display: 'flex',
             alignItems: 'center',
-            gap: theme.spacing(2),
-            color: theme.palette.primary.light
-          }}><CheckFat size={32} weight='fill' /> <span>Lista de Tarefas</span></Typography>
+            gap: theme.spacing(2)
+          }}>
+            <Rocket size={60} color='#5e60ce' /><p style={{ color: '#5e60ce', fontWeight: '900', fontSize: '50px' }}> <span style={{ color: '#52b2ec' }}>to</span>do</p>
+          </Typography>
         </Toolbar>
       </AppBar>
       <main>
-        <Container sx={{
-          position: 'relative',
-
-        }}>
-          <Grid container spacing={theme.spacing(0.5)} sx={{
+        <Container sx={{ position: 'relative', }}>
+          <Grid container spacing={2} sx={{
             position: 'absolute',
-            top: '-27px',
+            top: '-26px'
           }}>
-            <Grid item xl={10} sm={12}>
-              <TextField placeholder='Adcione uma nova tarefa' variant='outlined' name='task' fullWidth sx={{
-                backgroundColor: colors.grey[800]
-              }}>
+            <Grid item xl={10} xs={12}>
+              <CssTextField name='tasks' variant='outlined' label='Task' onChange={(e: ChangeEvent<HTMLInputElement>) => setTasksi(e.target.value)} placeholder='Adicione uma Nova tarefa' fullWidth sx={{
+                backgroundColor: colors.grey[900],
 
-              </TextField>
+              }} />
             </Grid>
-            <Grid item xl={2} sm={12}>
-              <Button variant='contained' sx={{
-                height: '100%'
-              }}><span>Criar</span><PlusCircle size={32} />
-
-              </Button>
-            </Grid>
-            <Grid container spacing={theme.spacing(1)} sx={{
-              marginTop: '25px'
-            }} >
-              <Grid item>
-                <Typography variant="caption" sx={{
-                  display: 'flex',
-                  alignItems: "center",
-                  gap: theme.spacing(2)
-                }}>
-                  <span>Tarefas Criadas</span>
-                  <Badge color='primary' badgeContent={0} showZero />
-
-                </Typography>
-              </Grid>
-              <Grid item sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end'
-              }}>
-                <Typography variant="caption" sx={{
-                  display: 'flex',
-                  alignItems: "center",
-                }}>
-                  <span>Tarefas Concluidas</span>
-                  <Badge color='primary' badgeContent={0} showZero />
-
-                </Typography>
-              </Grid>
+            <Grid item xl={2} xs={12} >
+              <Button variant='contained' name='tasks' onClick={saveNoBanco} fullWidth sx={{
+                height: '100%',
+                backgroundColor: '#52b2ec',
+                '&:hover': {
+                  backgroundColor: '#2b7aab',
+                  transition: '.4s',
+                }
+              }}>Create <PlusCircle size={30} /></Button>
             </Grid>
           </Grid>
         </Container>
-        <Box display='flex' alignItems='center' gap={theme.spacing(1)}>
-          <Typography>Tarefas Criadas</Typography>
-          <Chip label={0}></Chip>
-        </Box>
 
-        <Box display='flex' alignItems='flex-end' gap={theme.spacing(1)}>
-          <Typography>Tarefas Criadas</Typography>
-          <Chip label={0}></Chip>
-        </Box>
+
       </main>
+      <Container sx={{ paddingTop: '100px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0px 18px 30px 0px' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+              <span style={{ color: '#52b2ec', fontSize: '20px', fontWeight: '600' }} >
+                Tarefas criadas
+              </span>
+              <Badge sx={{
+                '& .MuiBadge-badge': {
+                  backgroundColor: '#383838', 
+                  textAlign: 'center',
+                  padding: '10px'
+                },
+
+              }} >  </Badge>
+            </div>
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+              <span style={{ color: '#5e60ce', fontSize: '20px', fontWeight: '600' }}>
+                Concluidas
+              </span>
+              <Badge sx={{
+                '& .MuiBadge-badge': {
+                  backgroundColor: '#383838', /
+                  textAlign: 'center',
+                  padding: '10px'
+                }
+              }} >  </Badge>
+            </div>
+          </div>
+        </div>
+        <Grid container spacing={theme.spacing(1)} >
+          <Grid item xl={12} xs={12}>
+            <Card sx={{
+              minWidth: 275,
+              width: '100%',
+              height: '55vh',
+              borderRadius: '10px',
+              boxShadow: '0px 2px 10px 0px #343434'
+            }}>
+              <CardContent sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                backgroundColor: '#121212'
+              }}>
 
 
-    </ThemeProvider>
-  );
+
+                {tasks.map(dados => (
+
+                  <CardTarefa texto={dados.description} />
+                ))}
+
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container >
+    </>
+  )
 }
-
 
 export default App
