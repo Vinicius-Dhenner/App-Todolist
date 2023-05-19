@@ -1,5 +1,5 @@
 {
-  "name": "todo-list",
+  "name": "app-todolist",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,18 +7,14 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "server": "node ./server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
-    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@phosphor-icons/react": "^2.0.9",
     "axios": "^1.4.0",
-    "json-server": "^0.17.3",
-    "phosphor-icons": "^1.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

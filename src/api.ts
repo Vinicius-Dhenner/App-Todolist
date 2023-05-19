@@ -27,6 +27,7 @@ export async function update (id:number) {
     return response.data
 }
 
+
 export async function exclude (id:number) {
     const tasks = await api.get(`tasks/${id}`)
     return tasks.data

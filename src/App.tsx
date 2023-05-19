@@ -3,9 +3,9 @@ import { useTheme, TextField, Grid, AppBar, Toolbar, Typography, Container, Butt
 import { ClipboardText, PlusCircle, Rocket } from "@phosphor-icons/react";
 import { styled } from '@mui/material/styles';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CardTarefa } from './CardTarefa/inde.tsx';
-import { Task } from './types/index.ts';
 import { api, getAll, save } from './service/api';
+import { Task } from './types';
+import { CardTarefa } from './CardTarefa/inde';
 
 
 
@@ -141,7 +141,7 @@ function App() {
               </span>
               <Badge sx={{
                 '& .MuiBadge-badge': {
-                  backgroundColor: '#383838', /
+                  backgroundColor: '#383838', 
                   textAlign: 'center',
                   padding: '10px'
                 }
