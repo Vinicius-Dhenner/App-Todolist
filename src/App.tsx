@@ -39,6 +39,7 @@ function App() {
   const [tasksi, setTasksi] = useState<string>('');
   const [tasks, setTasks] = useState<Task[]>([])
   const [teste, setTeste] = useState<any>()
+  const [criar, setCriar] = useState<string>('');
 
   useEffect(() => {
     pegaDados();
@@ -110,7 +111,7 @@ function App() {
                   backgroundColor: '#2b7aab',
                   transition: '.4s',
                 }
-              }}>Create <PlusCircle size={30} /></Button>
+              }}>Criar <PlusCircle size={30} /></Button>
             </Grid>
           </Grid>
         </Container>
